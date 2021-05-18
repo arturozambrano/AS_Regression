@@ -4,7 +4,7 @@ import pandas as pd
 import csv 
 
 # Importing dataset
-dataset = pd.read_csv('/Users/arturo/dev/Stream/AS_Regression/regression0425-b.csv')
+dataset = pd.read_csv('/Users/arturo/dev/Stream/AS_Regression/Data/regression0425-b.csv')
 X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, -1].values
 
@@ -27,7 +27,19 @@ regressor.fit(X_train, y_train)
 y_pred = regressor.predict(X_test)
 np.set_printoptions(precision=2)
 # for reshape the last 1 means horizontal concatenation, 0 means vertical
-result = (np.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),1)),1))
+result = np.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),1)),1)
+
+from sklearn.metrics import mean_squared_error
+mse = mean_squared_error(y_true = y_test.reshape(len(y_test)), y_pred = y_pred)
+print("MSE is: ", mse)
+sqrt = np.sqrt(mse)
+print("Sqrt(MSE): ", sqrt)
+
+
+from sklearn.metrics import r2_score
+
+coefficient_of_dermination = r2_score(y_test.reshape(len(y_test)),y_pred)
+print("R2 SCORE is: ", coefficient_of_dermination)
 
 with open("/Users/arturo/dev/Stream/AS_Regression/output-0425-b.csv", "w") as f:
     writer = csv.writer(f)
